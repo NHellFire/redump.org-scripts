@@ -17,21 +17,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// Database table to work on
-// Must be created with the schema in examples/database.sql
-$Table = "PS2";
-$dat = "dats/Sony - PlayStation 2 (20160406 23-41-52).dat"; // redump.org dat file
+if (!$CleanupDeletedFiles) {
+	return;
+}
 
-$BaseDir = "/media/Games/PS2"; // Directory to scan (recursive)
-$OutputDirectory = "output"; // Where to save text results to
+require_once(__DIR__."/config.php");
 
-$FileTypes = "/\.(iso|bin|cue)$/i"; // File types to scan (regex)
+$mysql = new mysqli($mysql_host, $mysql_user, $mysql_pass, $mysql_db);
+if ($mysqli->connect_errno) {
+	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error."\n";
+	die;
+}
 
-$CleanupDeletedFiles = true; // Remove nonexistent files from the database
-$RenameToDat = true; // Rename files to match the .dat
+$res = $mysql->query("SELECT * FROM $Table");
+while ($row = $res->fetch_assoc()) {
+	if (!file_exists($row["path"])) {
+		$delete = $mysql->prepare("DELETE FROM $Table WHERE id=?");
+		$delete->bind_param("i", $row["id"]);
+		$delete->execute();
+		$delete->close();
+	}
+}
 
-require(__DIR__."/includes/cleanup.php"); // Remove nonexistent files
-
-require(__DIR__."/includes/hash-all.php"); // Check md5 database is up-to-date
-
-require(__DIR__."/includes/check-dat.php"); // Check files against .dat
+$mysql->close();
