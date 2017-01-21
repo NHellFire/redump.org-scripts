@@ -109,9 +109,27 @@ $unknownCount = count($unknown);
 printf("\nHave: %s/%s (%.2f%%)\n", number_format($haveCount), number_format($romCount), ($haveCount/$romCount) * 100);
 printf("Unknown: %s\n", number_format($unknownCount));
 
-file_put_contents("$OutputDirectory/{$Table}_Missing.txt", MakeSummary($missing));
-file_put_contents("$OutputDirectory/{$Table}_Unknown.txt", MakeSummary($unknown));
-file_put_contents("$OutputDirectory/{$Table}_Have.txt", MakeSummary($have));
+$OutputMissing = "$OutputDirectory/{$Table}_Missing.txt";
+$OutputUnknown = "$OutputDirectory/{$Table}_Unknown.txt";
+$OutputHave = "$OutputDirectory/{$Table}_Have.txt";
+
+if ($missing) {
+	file_put_contents($OutputMissing, MakeSummary($missing));
+} else {
+	@unlink($OutputMissing);
+}
+
+if ($unknown) {
+	file_put_contents($OutputUnknown, MakeSummary($unknown));
+} else {
+	@unlink($OutputUnknown);
+}
+
+if ($have) {
+	file_put_contents($OutputHave, MakeSummary($have));
+} else {
+	@unlink($OutputHave);
+}
 
 
 // Functions
