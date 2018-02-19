@@ -175,12 +175,8 @@ function MakeSummary ($roms) {
 	unset($header, $headerLength);
 
 
-	$TotalSize = 0;
-	$FileCount = count($arr);
-
 	usort($roms, "SortRoms");
 	foreach ($roms as $rom) {
-		$TotalSize += $rom["size"];
 		$rom["size"] = FormatBytes($rom["size"]);
 
 		$line = array();
