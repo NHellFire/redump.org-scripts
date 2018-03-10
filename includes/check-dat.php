@@ -62,7 +62,7 @@ $unknown = array();
 $res = $mysql->query("SELECT * FROM $Table");
 while ($row = $res->fetch_assoc()) {
 	$key = array_search_md5($row["md5"], $roms);
-	if ($key) {
+	if ($key !== false) {
 		$rom = $roms[$key];
 		if ($RenameToDat) {
 			$NewPath = dirname($row["path"]).DIRECTORY_SEPARATOR.basename($rom["name"]);
