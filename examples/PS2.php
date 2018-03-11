@@ -24,6 +24,7 @@ $dat = "dats/Sony - PlayStation 2 (20160406 23-41-52).dat"; // redump.org dat fi
 
 $BaseDir = "/media/Games/PS2"; // Directory to scan (recursive)
 $OutputDirectory = "output"; // Where to save text results to
+$OutputName = ""; // Prefix for output filenames. Defaults to $Table
 
 $FileTypes = "/\.(iso|bin|cue)$/i"; // File types to scan (regex)
 

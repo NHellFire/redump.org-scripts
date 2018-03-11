@@ -28,6 +28,10 @@ if ($OutputDirectory !== NULL) {
 	$OutputDirectory = ".";
 }
 
+if (!strlen(@$OutputName)) {
+	$OutputName = $Table;
+}
+
 $mysql = new mysqli($mysql_host, $mysql_user, $mysql_pass, $mysql_db);
 if ($mysql->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysql->connect_errno . ") " . $mysql->connect_error."\n";
@@ -109,9 +113,9 @@ $unknownCount = count($unknown);
 printf("\nHave: %s/%s (%.2f%%)\n", number_format($haveCount), number_format($romCount), ($haveCount/$romCount) * 100);
 printf("Unknown: %s\n", number_format($unknownCount));
 
-$OutputMissing = "$OutputDirectory/{$Table}_Missing.txt";
-$OutputUnknown = "$OutputDirectory/{$Table}_Unknown.txt";
-$OutputHave = "$OutputDirectory/{$Table}_Have.txt";
+$OutputMissing = "$OutputDirectory/{$OutputName}_Missing.txt";
+$OutputUnknown = "$OutputDirectory/{$OutputName}_Unknown.txt";
+$OutputHave = "$OutputDirectory/{$OutputName}_Have.txt";
 
 if ($missing) {
 	file_put_contents($OutputMissing, MakeSummary($missing));
