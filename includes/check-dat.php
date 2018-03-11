@@ -168,7 +168,8 @@ function MakeSummary ($roms) {
 	$header = array();
 	foreach ($columns as $index => $column) {
 		list($Title, $Length, $Key) = explode(":", $column, 3);
-		$header[] = str_pad($Title, $Length + $padding, " ", $index ? STR_PAD_BOTH : STR_PAD_RIGHT);
+		$thispadding = $index ? $padding : $padding / 2;
+		$header[] = str_pad($Title, $Length + $thispadding, " ", $index ? STR_PAD_BOTH : STR_PAD_RIGHT);
 		unset($Title, $Length, $Key);
 	}
 	$header = implode("|", $header);
@@ -186,7 +187,8 @@ function MakeSummary ($roms) {
 		$line = array();
 		foreach ($columns as $index => $column) {
 			list($Title, $Length, $Key) = explode(":", $column, 3);
-			$line[] = str_pad($rom[$Key], $Length + $padding, " ", $index ? STR_PAD_BOTH : STR_PAD_RIGHT);
+			$thispadding = $index ? $padding : $padding / 2;
+			$line[] = str_pad($rom[$Key], $Length + $thispadding, " ", $index ? STR_PAD_BOTH : STR_PAD_RIGHT);
 		}
 		$ret[] = implode("|", $line);
 	}
